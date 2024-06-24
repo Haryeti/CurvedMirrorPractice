@@ -81,8 +81,10 @@ const generateFriendlyFractionPair = () => {
     const objectChoice = objects[Math.floor(Math.random() * objects.length)];
     const scenario = scenarios[Math.floor(Math.random() * scenarios.length)].replace("{mirror_type}", mirrorType);
   
-    let focalLength = Math.round(Math.random() * 45 + 5);
-    let objectDistance = Math.round(Math.random() * 90 + 10);
+    let focalLength = Math.random() * 45 + 5;
+    focalLength = Math.round(focalLength);
+    let objectDistance = Math.random() * 90 + 10;
+    objectDistance = Math.round(objectDistance);
   
     if (mirrorType === "convex") {
       focalLength = -focalLength;
