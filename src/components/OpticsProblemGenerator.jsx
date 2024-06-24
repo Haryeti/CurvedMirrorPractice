@@ -26,8 +26,8 @@ const generateFriendlyFractionPair = () => {
       { knowns: ['f', 'do', 'ho'], unknowns: ['di', 'hi', 'm'] },
       { knowns: ['f', 'do', 'hi'], unknowns: ['di', 'ho', 'm'] },
       { knowns: ['f', 'di', 'ho'], unknowns: ['do', 'hi', 'm'] },
-      { knowns: ['f', 'do', 'm'], unknowns: ['di', 'hi', 'ho'] },
-      { knowns: ['do', 'di', 'm'], unknowns: ['f', 'hi', 'ho'] },
+      { knowns: ['di', 'ho', 'm'], unknowns: ['do', 'hi', 'f'] },
+      { knowns: ['do', 'hi', 'm'], unknowns: ['f', 'di', 'ho'] },
     ];
     return types[Math.floor(Math.random() * types.length)];
   };
@@ -81,47 +81,28 @@ const generateFriendlyFractionPair = () => {
     const objectChoice = objects[Math.floor(Math.random() * objects.length)];
     const scenario = scenarios[Math.floor(Math.random() * scenarios.length)].replace("{mirror_type}", mirrorType);
   
-    let focalLength, objectDistance, objectHeight, imageDistance, imageHeight, magnification;
-  
-    // Generate focal length and object distance
-    focalLength = Number((Math.random() * 45 + 5).toFixed(2));
-    objectDistance = Number((Math.random() * 90 + 10).toFixed(2));
+    let focalLength = Math.round(Math.random() * 45 + 5);
+    let objectDistance = Math.round(Math.random() * 90 + 10);
   
     if (mirrorType === "convex") {
       focalLength = -focalLength;
     }
   
-    // Calculate image distance
-    imageDistance = 1 / (1/focalLength - 1/objectDistance);
-  
-    // Ensure physically correct scenarios
-    if (mirrorType === "concave") {
-      if (objectDistance > Math.abs(focalLength)) {
-        // Ensure image is in front of mirror and inverted
-        imageDistance = Math.abs(imageDistance);
-        magnification = -imageDistance / objectDistance;
-      } else {
-        // Ensure image is behind mirror and upright
-        imageDistance = -Math.abs(imageDistance);
-        magnification = Math.abs(imageDistance) / objectDistance;
-      }
-    } else { // convex mirror
-      imageDistance = -Math.abs(imageDistance);
-      magnification = Math.abs(imageDistance) / objectDistance;
-    }
-  
-    objectHeight = Number((Math.random() * 9 + 1).toFixed(2));
-    imageHeight = objectHeight * magnification;
+    // Perform calculations with full precision
+    const imageDistance = 1 / (1 / focalLength - 1 / objectDistance);
+    const magnification = -imageDistance / objectDistance;
+    const objectHeight = Math.round(Math.random() * 9 + 1);
+    const imageHeight = objectHeight * magnification;
   
     const problemType = generateProblemType();
-    
+  
     const problemInfoMap = {
-      f: `The focal length of the mirror is ${Math.abs(focalLength)} cm.`,
-      do: `A ${objectChoice} is placed ${objectDistance} cm in front of the ${mirrorType} mirror.`,
-      ho: `The ${objectChoice} is ${objectHeight} cm tall.`,
-      di: `The image is formed ${Math.abs(imageDistance.toFixed(2))} cm ${imageDistance > 0 ? 'in front of' : 'behind'} the mirror.`,
-      hi: `The image is ${Math.abs(imageHeight.toFixed(2))} cm tall${imageHeight < 0 ? ' and inverted' : ''}.`,
-      m: `The magnification of the image is ${Math.abs(magnification.toFixed(2))}${magnification < 0 ? ' (inverted)' : ''}.`
+      f: `The focal length of the mirror is ${Math.abs(focalLength).toFixed(2)} cm.`,
+      do: `A ${objectChoice} is placed ${objectDistance.toFixed(2)} cm in front of the mirror.`,
+      ho: `The ${objectChoice} is ${objectHeight.toFixed(2)} cm tall.`,
+      di: `The image is formed ${Math.abs(imageDistance).toFixed(2)} cm ${imageDistance > 0 ? 'in front of' : 'behind'} the mirror.`,
+      hi: `The image is ${Math.abs(imageHeight).toFixed(2)} cm tall${imageHeight < 0 ? ' and inverted' : ''}.`,
+      m: `The magnification of the image is ${Math.abs(magnification).toFixed(2)}${magnification < 0 ? ' (inverted)' : ''}.`
     };
   
     let problem = `${scenario} `;
@@ -151,12 +132,12 @@ const generateFriendlyFractionPair = () => {
   
     const detailedInfoMap = {
       type: `Type of mirror: ${mirrorType}`,
-      f: `The focal length of the mirror is ${Math.abs(focalLength)} cm. f = ${focalLength.toFixed(2)} cm`,
-      do: `A ${objectChoice} is placed ${objectDistance} cm in front of the ${mirrorType} mirror. do = ${objectDistance.toFixed(2)} cm`,
-      ho: `The ${objectChoice} is ${objectHeight} cm tall. ho = ${objectHeight.toFixed(2)} cm`,
-      di: `The image is formed ${Math.abs(imageDistance.toFixed(2))} cm ${imageDistance > 0 ? 'in front of' : 'behind'} the mirror. di = ${imageDistance.toFixed(2)} cm`,
-      hi: `The image is ${Math.abs(imageHeight.toFixed(2))} cm tall${imageHeight < 0 ? ' and inverted' : ''}. hi = ${imageHeight.toFixed(2)} cm`,
-      m: `The magnification of the image is ${Math.abs(magnification.toFixed(2))}${magnification < 0 ? ' (inverted)' : ''}. m = ${magnification.toFixed(2)}`
+      f: `The focal length of the mirror is ${Math.abs(focalLength).toFixed(2)} cm. f = ${focalLength.toFixed(2)} cm`,
+      do: `A ${objectChoice} is placed ${objectDistance.toFixed(2)} cm in front of the ${mirrorType} mirror. do = ${objectDistance.toFixed(2)} cm`,
+      ho: `The ${objectChoice} is ${objectHeight.toFixed(2)} cm tall. ho = ${objectHeight.toFixed(2)} cm`,
+      di: `The image is formed ${Math.abs(imageDistance).toFixed(2)} cm ${imageDistance > 0 ? 'in front of' : 'behind'} the mirror. di = ${imageDistance.toFixed(2)} cm`,
+      hi: `The image is ${Math.abs(imageHeight).toFixed(2)} cm tall${imageHeight < 0 ? ' and inverted' : ''}. hi = ${imageHeight.toFixed(2)} cm`,
+      m: `The magnification of the image is ${Math.abs(magnification).toFixed(2)}${magnification < 0 ? ' (inverted)' : ''}. m = ${magnification.toFixed(2)}`
     };
   
     const answers = {
@@ -169,9 +150,11 @@ const generateFriendlyFractionPair = () => {
     };
   
     const salt = calculateSALT(mirrorType, focalLength, imageDistance, imageHeight, objectHeight);
-
+  
     return { problem, givenInfo, detailedInfoMap, equations, problemType, answers, salt };
   };
+  
+  
   
   const OpticsProblemGenerator = () => {
     const [problem, setProblem] = useState(null);
