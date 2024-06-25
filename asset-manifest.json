@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CurvedMirrorPractice/static/css/main.ad86e754.css",
-    "main.js": "/CurvedMirrorPractice/static/js/main.e0fc1ae0.js",
+    "main.js": "/CurvedMirrorPractice/static/js/main.a7bafd49.js",
     "static/js/453.2d2b46d5.chunk.js": "/CurvedMirrorPractice/static/js/453.2d2b46d5.chunk.js",
     "index.html": "/CurvedMirrorPractice/index.html",
     "main.ad86e754.css.map": "/CurvedMirrorPractice/static/css/main.ad86e754.css.map",
-    "main.e0fc1ae0.js.map": "/CurvedMirrorPractice/static/js/main.e0fc1ae0.js.map",
+    "main.a7bafd49.js.map": "/CurvedMirrorPractice/static/js/main.a7bafd49.js.map",
     "453.2d2b46d5.chunk.js.map": "/CurvedMirrorPractice/static/js/453.2d2b46d5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ad86e754.css",
-    "static/js/main.e0fc1ae0.js"
+    "static/js/main.a7bafd49.js"
   ]
 }
